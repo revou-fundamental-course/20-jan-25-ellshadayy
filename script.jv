@@ -1,0 +1,95 @@
+// Fungsi untuk menghitung BMI berdasarkan berat dan tinggi badan.
+function calculateBMI() {
+    // Ambil nilai dari input
+    let weight = parseFloat(document.getElementById("weight").value);
+    let height = parseFloat(document.getElementById("height").value) / 100; // Ubah cm ke meter
+
+    // Validasi input
+    if (isNaN(weight) || isNaN(height) || height === 0) {
+        displayResult("Masukkan data yang valid!", "red");
+        return;
+    }
+
+    // Hitung BMI
+    let bmi = weight / (height * height);
+    let category = getBMICategory(bmi);
+    let advice = getBMIAdvice(category);
+    let healthRisk = getHealthRisk(category);
+
+    // Tampilkan hasil
+    displayResult(
+        `BMI Anda: ${bmi.toFixed(2)} ${category}\nSaran: ${advice}\nRisiko Kesehatan: ${healthRisk}`,
+        "#560ea2"
+
+    );
+}
+
+/**
+ Fungsi untuk mendapatkan kategori BMI berdasarkan nilainya.
+  @param {number} bmi - Nilai BMI yang dihitung.
+  @returns {string} - Kategori BMI.
+ */
+function getBMICategory(bmi) {
+    if (bmi < 18.5) {
+        return "Kekurangan berat badan";
+    } else if (bmi >= 18.5 && bmi < 24.9) {
+        return "Normal (ideal)";
+    } else if (bmi >= 25 && bmi < 29.9) {
+        return "Kelebihan berat badan";
+    } else {
+        return "Kegemukan (Obesitas)";
+    }
+}
+
+/**
+ Fungsi untuk memberikan saran berdasarkan kategori BMI.
+ @param {string} category - Kategori BMI.
+ @returns {string} - Saran untuk kategori BMI.
+ */
+function getBMIAdvice(category) {
+    if (category === "Kekurangan berat badan") {
+        return "Perbanyak konsumsi makanan bergizi dan seimbang.";
+    } else if (category === "Normal (ideal)") {
+        return "Terus jaga pola makan dan aktivitas fisik yang seimbang.";
+    } else if (category === "Kelebihan berat badan") {
+        return "Disarankan untuk mengurangi berat badan dengan pola makan sehat dan olahraga.";
+    } else {
+        return "Disarankan untuk segera berkonsultasi dengan dokter untuk penurunan berat badan.";
+    }
+}
+
+/**
+  Fungsi untuk memberikan risiko kesehatan berdasarkan kategori BMI.
+  @param {string} category - Kategori BMI.
+  @returns {string} - Risiko kesehatan untuk kategori BMI.
+ */
+function getHealthRisk(category) {
+    if (category === "Kekurangan berat badan") {
+        return "Risiko kekurangan gizi dan gangguan sistem kekebalan tubuh.";
+    } else if (category === "Normal (ideal)") {
+        return "Risiko kesehatan rendah, tetap pertahankan gaya hidup sehat.";
+    } else if (category === "Kelebihan berat badan") {
+        return "Risiko diabetes, hipertensi, dan penyakit jantung.";
+    } else {
+        return "Risiko tinggi diabetes, hipertensi, penyakit jantung, dan gangguan tidur.";
+    }
+}
+
+/**
+  Fungsi untuk menampilkan hasil BMI.
+  @param {string} message - Pesan hasil BMI.
+  @param {string} color - Warna teks hasil.
+ */
+function displayResult(message, color) {
+    let resultElement = document.getElementById("result");
+    resultElement.innerText = message;
+    resultElement.style.color = color;
+}
+
+// Fungsi untuk mereset formulir input.
+function resetForm() {
+    document.getElementById("weight").value = "";
+    document.getElementById("age").value = "";
+    document.getElementById("height").value = "";
+    document.getElementById("result").innerText = "";
+}
